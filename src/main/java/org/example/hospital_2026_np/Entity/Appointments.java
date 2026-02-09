@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
 
@@ -25,19 +27,26 @@ public class Appointments {
 
     private String status; // created / in_progress / completed
 
+    @CreationTimestamp
+    @Column(updatable = false)
     private Date createdAt;
     private Date executedAt;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")
+    @ToString.Exclude
     private Patients patient;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
+    @ToString.Exclude
     private Doctors doctor;
 
     @ManyToOne
     @JoinColumn(name = "executor_id")
-    private Users executor; // Хто виконав призначення
+    @ToString.Exclude
+    private Staff executor; // Хто виконав призначення
+
+
 
 }
