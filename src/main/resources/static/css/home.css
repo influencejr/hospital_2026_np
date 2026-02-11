@@ -2,3 +2,99 @@
     /*background-color: #f8aaaa !important;*/
     font-size: 18px;
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.top-bar {
+    height: 60px;
+    background-color: #1b5e20;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+}
+
+.logo {
+    font-size: 1.4rem;
+}
+
+.login-btn {
+    background-color: white;
+    color: #1b5e20;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.login-btn:hover {
+    background-color: #c8e6c9;
+}
+
+.hero {
+    height: calc(100vh - 80px);
+    background-image:
+            linear-gradient(
+                    120deg,
+                    rgba(27, 94, 32, 0.75),
+                    rgba(46, 125, 50, 0.75)
+            ),
+            url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3");
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-content {
+    text-align: center;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 50px;
+}
+
+.cards {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+.card {
+    width: 220px;
+    height: 100px;
+
+    background-color: white;
+    color: #1b5e20;
+    text-decoration: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    font-size: 1.1rem;
+    font-weight: bold;
+
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}

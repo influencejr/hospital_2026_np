@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -31,6 +32,9 @@ public class Appointments {
     @Column(updatable = false)
     private Date createdAt;
     private Date executedAt;
+
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "patient_id")

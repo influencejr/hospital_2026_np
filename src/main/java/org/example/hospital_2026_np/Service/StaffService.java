@@ -5,6 +5,8 @@ import org.example.hospital_2026_np.Entity.Staff;
 import org.example.hospital_2026_np.Repository.StaffRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class StaffService {
@@ -13,6 +15,10 @@ public class StaffService {
 
     public Staff findById(Long id){
         return staffRepository.findById(id).get();
+    }
+
+    public List<Staff> findAll(){
+        return staffRepository.findAll();
     }
 
 }
