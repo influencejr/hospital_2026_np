@@ -13,7 +13,6 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Long>
             SELECT COUNT(a) > 0
             FROM Appointments a
             WHERE a.doctor.id = :doctorId
-            AND a.status = 'created'
             AND :start < a.endTime
             AND :end > a.startTime   
             """)

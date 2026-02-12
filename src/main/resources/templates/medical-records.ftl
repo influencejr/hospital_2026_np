@@ -22,30 +22,22 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>Ім'я</th>
-            <th>Прізвище</th>
-            <th>Спеціалізація</th>
-            <th>Розклад:</th>
+            <th>Дата призначення</th>
+            <th>Діагноз</th>
+            <th>Призначені ліки</th>
+            <th>Рекомендації</th>
         </tr>
         </thead>
 
-        <#if staff??>
+        <#if records??>
             <tbody>
-            <#list staff as worker>
+            <#list records as record>
                 <tr>
-                    <td>${worker.id}</td>
-                    <td>${worker.firstName}</td>
-                    <td>${worker.lastName}</td>
-                    <td>${worker.specialization}</td>
-                    <td>
-                        <#if slots[worker.id?string]??>
-                            <#list slots[worker.id?string] as slot>
-                                ${slot}
-                            </#list>
-                        <#else>
-                            <span class="text-muted">-</span>
-                        </#if>
-                    </td>
+                    <td>${record.id}</td>
+                    <td>${record.appointmentDate}</td>
+                    <td>${record.diagnosis}</td>
+                    <td>${record.prescription}</td>
+                    <td>${record.recommendation}</td>
                 </tr>
                 </tbody>
 

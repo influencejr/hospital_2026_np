@@ -2,8 +2,10 @@ package org.example.hospital_2026_np.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.hospital_2026_np.Entity.Appointments;
+import org.example.hospital_2026_np.Entity.Doctors;
 import org.example.hospital_2026_np.Entity.Staff;
 import org.example.hospital_2026_np.Service.DoctorAvailabilityService;
+import org.example.hospital_2026_np.Service.DoctorService;
 import org.example.hospital_2026_np.Service.StaffService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,7 @@ public class DoctorsController {
 
     private final StaffService staffService;
     private final DoctorAvailabilityService doctorAvailabilityService;
+    private final DoctorService doctorService;
 
     @GetMapping("/available_doctors")
     public String availableDoctorsPage(Model model){
@@ -34,8 +37,23 @@ public class DoctorsController {
         Map<String, List<String>> doctorSlotsMap = new HashMap<>();
         LocalDate now = LocalDate.now();
         Duration slotDuration = Duration.ofMinutes(30);
+        String specialization;
 
         for (Staff doctor : staff) {
+
+            specialization = doctorService.findById(doctor.getId()).getSpecialization();
+            System.out.println(specialization);
+
+
+            if ("surgeon".equals(specialization)) {
+                slotDuration = Duration.ofMinutes(120);
+            } else if ("therapist".equals(specialization)) {
+                slotDuration = Duration.ofMinutes(25);
+            } else {
+                slotDuration = Duration.ofMinutes(15);
+            }
+
+
             List<LocalDateTime> slots = doctorAvailabilityService.generateAvailableSlots(doctor.getId(), String.valueOf(now), slotDuration);
 
             List<String> slotStrings = slots.stream().map(slot -> slot.toLocalTime()
