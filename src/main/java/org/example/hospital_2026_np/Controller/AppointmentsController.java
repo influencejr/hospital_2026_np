@@ -68,7 +68,9 @@ public class AppointmentsController {
 
 
     @GetMapping("/create_appointment/doctor_id/{id}")
-    public String createAppointmentPage(@PathVariable("id") Long id, Model model){
+    public String createAppointmentPage(@PathVariable("id") Long id,
+                                        Model model,
+                                        HttpServletRequest request){
 
         model.addAttribute("doctorId", id);
 
@@ -78,6 +80,12 @@ public class AppointmentsController {
         Duration slotDuration = Duration.ofMinutes(30);
         String specialization;
         specialization = doctorService.findById(doctor.getId()).getSpecialization();
+
+        HttpSession session = request.getSession();
+
+        session.setAttribute("lastViewedDoctorId", id);
+        session.setAttribute("lastViewedDoctorName", doctor.getFirstName() + " " + doctor.getLastName());
+
 
 
         if ("surgeon".equals(specialization)) {

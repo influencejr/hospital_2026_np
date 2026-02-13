@@ -39,6 +39,21 @@
     </#if>
 </div>
 
+<#if Session.lastViewedDoctorId??>
+    <div class="alert alert-info mt-3" style="border: 1px solid #bee5eb; padding: 15px; background-color: #d1ecf1; color: #0c5460; border-radius: 4px;">
+        <span>Ви нещодавно переглядали графік: </span>
+        <strong>
+            <#-- Створюємо динамічне посилання -->
+            <a href="/create_appointment/doctor_id/${Session.lastViewedDoctorId}" style="color: #0c5460; text-decoration: underline;">
+                ${Session.lastViewedDoctorName}
+            </a>
+        </strong>
+        <p style="margin-top: 5px; font-size: 0.85em;">
+            Ви можете швидко повернутися до створення запису.
+        </p>
+    </div>
+</#if>
+
 
 <#--<table class="appointments-table">-->
 <#--    <thead>-->
