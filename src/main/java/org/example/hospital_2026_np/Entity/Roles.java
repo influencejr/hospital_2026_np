@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 
 @Entity
 @Table(name = "roles")
@@ -22,6 +21,12 @@ public class Roles implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String role;
+
+
+    public Roles(Long Id, String name) {
+        this.role = name;
+        this.id = Id;
+    }
 
     @Override
     public @Nullable String getAuthority() {

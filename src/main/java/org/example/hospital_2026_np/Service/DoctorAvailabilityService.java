@@ -49,6 +49,7 @@ public class DoctorAvailabilityService {
 
         LocalDate localDate = LocalDate.parse(date);
         String dayOfWeekName = localDate.getDayOfWeek().name();
+        LocalDateTime now = LocalDateTime.now();
 
         DoctorSchedule schedule = doctorScheduleRepository
                 .findByDoctorIdAndDayOfWeek(doctorId, dayOfWeekName)
@@ -65,7 +66,9 @@ public class DoctorAvailabilityService {
                 || current.plus(slotDuration).equals(endOfDay)) {
 
             if (isDoctorAvailable(doctorId, current, current.plus(slotDuration))) {
-                slots.add(current);
+                if (!current.isBefore(now)) {
+                    slots.add(current);
+                }
             }
 
             current = current.plus(slotDuration);

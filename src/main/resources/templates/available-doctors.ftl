@@ -12,46 +12,48 @@
               integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
               crossorigin="anonymous">
         <link href="/css/available-doctors.css" rel="stylesheet">
+        <link href="/css/navbar.css" rel="stylesheet">
+        <link href="/css/table.css" rel="stylesheet">
     </head>
     <body>
 
     <#include "navbar.ftl">
 
 
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Ім'я</th>
-            <th>Прізвище</th>
-            <th>Спеціалізація</th>
-            <th>Розклад:</th>
-        </tr>
-        </thead>
-
+    <div class="appointments-grid">
         <#if staff??>
-            <tbody>
             <#list staff as worker>
-                <tr>
-                    <td>${worker.id}</td>
-                    <td>${worker.firstName}</td>
-                    <td>${worker.lastName}</td>
-                    <td>${worker.specialization}</td>
-                    <td>
-                        <#if slots[worker.id?string]??>
-                            <#list slots[worker.id?string] as slot>
-                                ${slot}
-                            </#list>
-                        <#else>
-                            <span class="text-muted">-</span>
-                        </#if>
-                    </td>
-                </tr>
-                </tbody>
+                <div class="appointment-cube">
+                    <div class="cube-header">
+                        <span class="type-badge">${worker.specialization}</span>
+                        <span class="id-label">#${worker.id}</span>
+                    </div>
 
+                    <div class="cube-content">
+                        <h5 class="worker-name">${worker.firstName} ${worker.lastName}</h5>
+                        <div class="schedule-box">
+                            <strong>Розклад:</strong>
+                            <div class="slots-list">
+                                <#if slots[worker.id?string]??>
+                                    <#list slots[worker.id?string] as slot>
+                                        <span class="slot-badge">${slot}</span>
+                                    </#list>
+                                <#else>
+                                    <span class="text-muted">Немає записів</span>
+                                </#if>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cube-footer">
+                        <form action="/create_appointment/doctor_id/${worker.id}" method="GET">
+                            <button type="submit" class="btn-submit btn-create-app">Записатись</button>
+                        </form>
+                    </div>
+                </div>
             </#list>
         </#if>
-    </table>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

@@ -9,39 +9,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/create-app.css">
+    <link rel="stylesheet" href="/css/navbar.css">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-custom">
-    <div class="container-fluid">
-        <a href="/"><img src="/img/pharmacy.png" alt="hospital" height="32px" href="/"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Мій профіль</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Призначення
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/appointments">Всі призначення</a></li>
-                        <li><a class="dropdown-item" href="/create_appointment">Зробити запис</a></li>
-                        <li><a class="dropdown-item" href="/delete_appointment">Видалити призначення</a></li>
-                        <li><a class="dropdown-item" href="/update_appointment">Змінити призначення</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+
+<#include "navbar.ftl">
 
 
 <div class="medical-form-container">
@@ -50,7 +23,7 @@
 
 
 
-    <form action="/create_appointment/create" method="POST">
+    <form action="/create_appointment/doctor_id/${doctorId}" method="POST">
 
         <div class="form-group">
             <label for="type">Тип призначення</label>
@@ -67,24 +40,21 @@
             <label for="description">Опис призначення</label>
             <textarea id="description" name="description" class="form-control" placeholder="Введіть деталі призначення..."></textarea>
         </div>
+        <div class="form-group">
+            <label for="description">Час призначення (Година:хвилини)</label>
+            <textarea id="appointmentTime" name="appointmentTime" class="form-control" placeholder="Введіть час запису..."></textarea>
+        </div>
+        <div class="form-group">
+            <label>Доступні часи для запису: </label>
+            <div class="slots-list">
+                <#list slots as slot>
+                    <span class="slot-badge">${slot}</span>
+                </#list>
+            </div>
+        </div>
 
         <hr style="border: 0; border-top: 1px solid #eee; margin: 25px 0;">
 
-        <div class="form-group">
-            <label>Дані</label>
-            <div class="row-two-cols">
-
-                <label>
-                    ID пацієнта
-                    <input type="number" name="patientID" class="form-control" placeholder="ID пацієнта">
-                </label>
-
-                <label>
-                    ID лікаря
-                    <input type="number" name="doctorID" class="form-control" placeholder="ID лікаря">
-                </label>
-            </div>
-        </div>
         <button type="submit" class="btn-submit">Створити призначення</button>
 
     </form>

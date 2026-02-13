@@ -17,4 +17,8 @@ public class MedicalRecordsService {
         return medicalRecordsRepository.findAllByPatientId(patientId);
     }
 
+    public MedicalRecords save(MedicalRecords medicalRecords) {
+        return medicalRecordsRepository.save(medicalRecords);
+    }
+
 }

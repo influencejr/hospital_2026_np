@@ -51,25 +51,8 @@ public class AppointmentsService {
         appointmentRepository.deleteAll();
     }
 
-    @Transactional
-    public Appointments book (Doctors doctor, Patients patient, String type, String description, LocalDateTime start, Duration duration) {
-        LocalDateTime end = start.plus(duration);
-
-        if (!doctorAvailabilityService.isDoctorAvailable(doctor.getId(), start, end)) {
-            throw new IllegalStateException("Doctor is not available");
-        }
-
-        Appointments appointment = new Appointments();
-        appointment.setDoctor(doctor);
-        appointment.setStartTime(start);
-        appointment.setEndTime(end);
-        appointment.setStatus("CREATED");
-        appointment.setDescription(description);
-        appointment.setPatient(patient);
-        appointment.setType(type);
-        appointment.setDescription(description);
-
-        return appointmentRepository.save(appointment);
+    public List<Appointments> findAllByPatientId(Long patientId) {
+        return  appointmentRepository.findAllByPatientId(patientId);
     }
 
 }

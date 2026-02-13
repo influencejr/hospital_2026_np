@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<Appointments, Long> {
 
@@ -19,5 +20,7 @@ public interface AppointmentRepository extends JpaRepository<Appointments, Long>
     Boolean existsOverlappingAppointment(@Param("doctorId") Long doctorId,
                                          @Param("start") LocalDateTime start,
                                          @Param("end") LocalDateTime end);
+
+    List<Appointments> findAllByPatientId(Long patientId);
 
 }

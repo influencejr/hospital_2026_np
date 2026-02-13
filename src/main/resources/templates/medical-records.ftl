@@ -12,38 +12,36 @@
               integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
               crossorigin="anonymous">
         <link href="/css/available-doctors.css" rel="stylesheet">
+        <link href="/css/navbar.css" rel="stylesheet">
+        <link href="/css/table.css" rel="stylesheet">
     </head>
     <body>
 
     <#include "navbar.ftl">
 
-
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Дата призначення</th>
-            <th>Діагноз</th>
-            <th>Призначені ліки</th>
-            <th>Рекомендації</th>
-        </tr>
-        </thead>
-
+    <div class="appointments-grid">
         <#if records??>
-            <tbody>
             <#list records as record>
-                <tr>
-                    <td>${record.id}</td>
-                    <td>${record.appointmentDate}</td>
-                    <td>${record.diagnosis}</td>
-                    <td>${record.prescription}</td>
-                    <td>${record.recommendation}</td>
-                </tr>
-                </tbody>
+                <div class="appointment-cube">
+                    <div class="cube-header">
+                        <span class="type-badge">Діагноз</span>
+                        <span class="id-label">#${record.id}</span>
+                    </div>
 
+                    <div class="cube-content">
+                        <h5 class="worker-name">${record.diagnosis}</h5>
+                        <p><strong>Дата:</strong> ${record.appointmentDate}</p>
+                        <p><strong>Ліки:</strong> ${record.prescription}</p>
+                        <p><strong>Рекомендації:</strong> ${record.recommendation}</p>
+                    </div>
+
+                    <div class="cube-footer">
+                        <small>Медична карта</small>
+                    </div>
+                </div>
             </#list>
         </#if>
-    </table>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
