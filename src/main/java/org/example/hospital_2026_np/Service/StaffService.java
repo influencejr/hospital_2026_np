@@ -21,4 +21,8 @@ public class StaffService {
         return staffRepository.findAll();
     }
 
+    public Staff findByUserId(Long userId) {
+        return staffRepository.findByUserId(userId);
+    }
+
 }

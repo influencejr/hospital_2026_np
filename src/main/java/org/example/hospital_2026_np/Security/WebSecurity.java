@@ -30,7 +30,7 @@ public class WebSecurity {
                         .requestMatchers("/", "/login", "/registration", "/css/**", "/img/**", "/js/**")
                         .permitAll()
                         .requestMatchers("/admin").hasAuthority("ROLE_ADMIN")
-                                .requestMatchers("/appointments").hasAuthority("ROLE_DOCTOR")
+//                                .requestMatchers("/appointments").hasAuthority("ROLE_DOCTOR")
 //                        .requestMatchers("/get_medical_records/{id}").hasAuthority("ROLE_DOCTOR")
                         .requestMatchers("/create_medical_record").hasAuthority("ROLE_DOCTOR")
                         .anyRequest().authenticated()

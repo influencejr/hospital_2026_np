@@ -25,17 +25,17 @@
             <#list staff as worker>
                 <div class="appointment-cube">
                     <div class="cube-header">
-                        <span class="type-badge">${worker.specialization}</span>
+                        <span class="type-badge">${worker.specialization!"Doctor"}</span>
                         <span class="id-label">#${worker.id}</span>
                     </div>
 
                     <div class="cube-content">
                         <h5 class="worker-name">${worker.firstName} ${worker.lastName}</h5>
                         <div class="schedule-box">
-                            <strong>Розклад:</strong>
+                            <strong>Розклад (${viewDate!"Сьогодні"}):</strong>
                             <div class="slots-list">
-                                <#if slots[worker.id?string]??>
-                                    <#list slots[worker.id?string] as slot>
+                                <#if (slots[worker.id?c]?? && slots[worker.id?c]?size > 0)>
+                                    <#list slots[worker.id?c] as slot>
                                         <span class="slot-badge">${slot}</span>
                                     </#list>
                                 <#else>

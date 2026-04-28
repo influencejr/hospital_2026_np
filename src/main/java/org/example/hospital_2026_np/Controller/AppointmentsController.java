@@ -3,12 +3,14 @@ package org.example.hospital_2026_np.Controller;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.example.hospital_2026_np.Entity.*;
 import org.example.hospital_2026_np.Repository.ExecutorRepository;
 import org.example.hospital_2026_np.Repository.PatientRepository;
 import org.example.hospital_2026_np.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,29 +39,55 @@ public class AppointmentsController {
 
     @GetMapping("/appointments/{id}")
     public String getAppointmentsWithId(@PathVariable Long id,
+            @AuthenticationPrincipal Users user,
             Model model){
 
-        List<Appointments> appointments = appointmentsService.findAllByPatientId(id);
-        model.addAttribute("appointments", appointments);
-        appointments.forEach(a -> {
-            System.out.println("Doctor: " + a.getDoctor());
-        });
+        if (Objects.equals(user.getId(), id)) {
+            List<Appointments> appointments = appointmentsService.findAllByPatientId(id);
+            model.addAttribute("appointments", appointments);
+
+            return "appointments";
+        } else {
+            return "redirect:/";
+        }
 
 
-        return "appointments";
+
+
+
     }
 
 
     @GetMapping("/appointments")
-    public String getAppointments(Model model){
+    public String getAppointments(@AuthenticationPrincipal Users user, Model model) {
+        if (user == null) {
+            return "redirect:/login";
+        }
 
-        List<Appointments> appointments = appointmentsService.findAll();
+        List<Appointments> appointments;
+        boolean isPatient = user.getRoles().stream().anyMatch(role -> role.getRole().equals("ROLE_PATIENT"));
+        boolean isDoctor = user.getRoles().stream().anyMatch(role -> role.getRole().equals("ROLE_DOCTOR"));
+
+        if (isPatient) {
+            Patients patient = patientsService.findByUserId(user.getId());
+            if (patient != null) {
+                appointments = appointmentsService.findAllByPatientId(patient.getId());
+            } else {
+                appointments = Collections.emptyList();
+            }
+        } else if (isDoctor) {
+            Staff staff = staffService.findByUserId(user.getId());
+            if (staff != null) {
+                appointments = appointmentsService.findAllByDoctorId(staff.getId());
+            } else {
+                appointments = Collections.emptyList();
+            }
+        } else {
+            // Default behavior or admin
+            appointments = appointmentsService.findAll();
+        }
+
         model.addAttribute("appointments", appointments);
-        appointments.forEach(a -> {
-            System.out.println("Doctor: " + a.getDoctor());
-        });
-
-
         return "appointments";
     }
 
@@ -74,12 +99,17 @@ public class AppointmentsController {
 
         model.addAttribute("doctorId", id);
 
-        Doctors doctor = doctorService.findById(id);
+        Doctors doctor;
+        try {
+            doctor = doctorService.findById(id);
+        } catch (Exception e) {
+            return "redirect:/available_doctors";
+        }
+
         Map<String, List<String>> doctorSlotsMap = new HashMap<>();
         LocalDate now = LocalDate.now();
         Duration slotDuration = Duration.ofMinutes(30);
-        String specialization;
-        specialization = doctorService.findById(doctor.getId()).getSpecialization();
+        String specialization = doctor.getSpecialization();
 
         HttpSession session = request.getSession();
 
@@ -93,11 +123,22 @@ public class AppointmentsController {
         } else if ("therapist".equals(specialization)) {
             slotDuration = Duration.ofMinutes(25);
         } else {
-            slotDuration = Duration.ofMinutes(15);
+            slotDuration = Duration.ofMinutes(30); // Consistent with available_doctors
         }
 
 
         List<LocalDateTime> slots = doctorAvailabilityService.generateAvailableSlots(doctor.getId(), String.valueOf(now), slotDuration);
+
+        if (slots.isEmpty()) {
+            // Check for tomorrow
+            LocalDate tomorrow = LocalDate.now().plusDays(1);
+            slots = doctorAvailabilityService.generateAvailableSlots(doctor.getId(), String.valueOf(tomorrow), slotDuration);
+            model.addAttribute("viewDate", "Завтра");
+            session.setAttribute("lastViewedDate", "Завтра");
+        } else {
+            model.addAttribute("viewDate", "Сьогодні");
+            session.setAttribute("lastViewedDate", "Сьогодні");
+        }
 
         List<String> slotStrings = slots.stream().map(slot -> slot.toLocalTime()
                 .format(DateTimeFormatter.ofPattern("HH:mm"))).toList();
@@ -127,12 +168,29 @@ public class AppointmentsController {
 
         HttpSession session = request.getSession();
 
-        Doctors doctor = (Doctors) doctorService.findById(id);
+        Doctors doctor;
+        try {
+            doctor = (Doctors) doctorService.findById(id);
+        } catch (Exception e) {
+            return "redirect:/available_doctors";
+        }
 
         LocalTime time = LocalTime.parse(appointmentTime);
-        LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now(), time);
+        LocalDate appointmentDate = LocalDate.now();
+        if ("Завтра".equals(session.getAttribute("lastViewedDate"))) {
+            appointmentDate = appointmentDate.plusDays(1);
+        }
+        LocalDateTime startDateTime = LocalDateTime.of(appointmentDate, time);
 
-        LocalDateTime endDateTime = startDateTime.plusMinutes(15);
+        String specialization = doctor.getSpecialization();
+        int minutes = 30;
+        if ("surgeon".equals(specialization)) {
+            minutes = 120;
+        } else if ("therapist".equals(specialization)) {
+            minutes = 25;
+        }
+
+        LocalDateTime endDateTime = startDateTime.plusMinutes(minutes);
 
         Appointments appointment = new Appointments();
         appointment.setType(appointmentType);

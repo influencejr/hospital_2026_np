@@ -45,11 +45,15 @@
             <textarea id="appointmentTime" name="appointmentTime" class="form-control" placeholder="Введіть час запису..."></textarea>
         </div>
         <div class="form-group">
-            <label>Доступні часи для запису: </label>
+            <label>Доступні часи для запису (${viewDate!"Сьогодні"}): </label>
             <div class="slots-list">
-                <#list slots as slot>
-                    <span class="slot-badge">${slot}</span>
-                </#list>
+                <#if (slots?? && slots?size > 0)>
+                    <#list slots as slot>
+                        <span class="slot-badge">${slot}</span>
+                    </#list>
+                <#else>
+                    <span class="text-muted">Немає доступних слотів на сьогодні</span>
+                </#if>
             </div>
         </div>
 

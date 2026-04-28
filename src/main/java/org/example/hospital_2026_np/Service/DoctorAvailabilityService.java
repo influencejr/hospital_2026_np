@@ -26,8 +26,13 @@ public class DoctorAvailabilityService {
         Boolean absent = doctorAbsenceRepository.existsByDoctorIdAndDateFrom(doctorId, start.toLocalDate());
         if (Boolean.TRUE.equals(absent)) return false;
 
-        String dowString = start.getDayOfWeek().name();
+        String dowString = start.getDayOfWeek().name().substring(0, 1).toUpperCase() 
+                + start.getDayOfWeek().name().substring(1).toLowerCase();
         DoctorSchedule schedule = doctorScheduleRepository.findByDoctorIdAndDayOfWeek(doctorId, dowString).orElse(null);
+        if (schedule == null) {
+            schedule = doctorScheduleRepository.findByDoctorIdAndDayOfWeek(doctorId, start.getDayOfWeek().name()).orElse(null);
+        }
+        
         if (schedule == null) return false;
 
         if (start.toLocalTime().isBefore(schedule.getStartTime()) || end.toLocalTime().isAfter(schedule.getEndTime())) {
@@ -48,12 +53,20 @@ public class DoctorAvailabilityService {
         List<LocalDateTime> slots = new ArrayList<>();
 
         LocalDate localDate = LocalDate.parse(date);
-        String dayOfWeekName = localDate.getDayOfWeek().name();
+        String dayOfWeekName = localDate.getDayOfWeek().name().substring(0, 1).toUpperCase() 
+                + localDate.getDayOfWeek().name().substring(1).toLowerCase();
         LocalDateTime now = LocalDateTime.now();
 
         DoctorSchedule schedule = doctorScheduleRepository
                 .findByDoctorIdAndDayOfWeek(doctorId, dayOfWeekName)
                 .orElse(null);
+
+        if (schedule == null) {
+            // Try fully uppercase as fallback
+            schedule = doctorScheduleRepository
+                    .findByDoctorIdAndDayOfWeek(doctorId, localDate.getDayOfWeek().name())
+                    .orElse(null);
+        }
 
         if (schedule == null) {
             return slots;

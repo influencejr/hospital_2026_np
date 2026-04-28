@@ -55,4 +55,8 @@ public class AppointmentsService {
         return  appointmentRepository.findAllByPatientId(patientId);
     }
 
+    public List<Appointments> findAllByDoctorId(Long doctorId) {
+        return appointmentRepository.findAllByDoctorId(doctorId);
+    }
+
 }
