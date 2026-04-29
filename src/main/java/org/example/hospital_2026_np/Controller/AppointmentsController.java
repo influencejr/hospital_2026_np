@@ -35,7 +35,7 @@ public class AppointmentsController {
     private final DoctorAvailabilityService doctorAvailabilityService;
     private final UserService userService;
 
-
+    final String attributeName = "appointments";
 
     @GetMapping("/appointments/{id}")
     public String getAppointmentsWithId(@PathVariable Long id,
@@ -44,9 +44,9 @@ public class AppointmentsController {
 
         if (Objects.equals(user.getId(), id)) {
             List<Appointments> appointments = appointmentsService.findAllByPatientId(id);
-            model.addAttribute("appointments", appointments);
+            model.addAttribute(attributeName, appointments);
 
-            return "appointments";
+            return attributeName;
         } else {
             return "redirect:/";
         }
@@ -87,8 +87,8 @@ public class AppointmentsController {
             appointments = appointmentsService.findAll();
         }
 
-        model.addAttribute("appointments", appointments);
-        return "appointments";
+        model.addAttribute(attributeName, appointments);
+        return attributeName;
     }
 
 
@@ -170,7 +170,7 @@ public class AppointmentsController {
 
         Doctors doctor;
         try {
-            doctor = (Doctors) doctorService.findById(id);
+            doctor = doctorService.findById(id);
         } catch (Exception e) {
             return "redirect:/available_doctors";
         }
