@@ -35,7 +35,7 @@ public class AppointmentsController {
     private final DoctorAvailabilityService doctorAvailabilityService;
     private final UserService userService;
 
-    final String attributeName = "appointments";
+    final static String attributeName = "appointments";
 
     @GetMapping("/appointments/{id}")
     public String getAppointmentsWithId(@PathVariable Long id,
