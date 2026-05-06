@@ -1,0 +1,71 @@
+.admin-section {
+    min-height: calc(100vh - 80px);
+    background-image:
+            linear-gradient(
+                    120deg,
+                    rgba(27, 94, 32, 0.75),
+                    rgba(46, 125, 50, 0.75)
+            ),
+            url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3");
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+.admin-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 800px;
+}
+
+.admin-container h1 {
+    color: #1b5e20;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.admin-card h3 {
+    color: #2e7d32;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    border-bottom: 2px solid #e8f5e9;
+    padding-bottom: 10px;
+}
+
+.admin-card .form-label {
+    color: #1b5e20;
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.btn-primary:hover {
+    background-color: #1b5e20;
+    border-color: #1b5e20;
+}
+
+hr {
+    margin: 40px 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.table {
+    margin-top: 10px;
+}
+
+.table thead th {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+}

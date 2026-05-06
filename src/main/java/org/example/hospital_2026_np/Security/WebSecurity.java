@@ -29,10 +29,10 @@ public class WebSecurity {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/", "/login", "/registration", "/css/**", "/img/**", "/js/**")
                         .permitAll()
-                        .requestMatchers("/admin").hasAuthority("ROLE_ADMIN")
-//                                .requestMatchers("/appointments").hasAuthority("ROLE_DOCTOR")
-//                        .requestMatchers("/get_medical_records/{id}").hasAuthority("ROLE_DOCTOR")
+                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/appointments/**").hasAnyAuthority("ROLE_DOCTOR", "ROLE_PATIENT", "ROLE_ADMIN")
                         .requestMatchers("/create_medical_record").hasAuthority("ROLE_DOCTOR")
+                        .requestMatchers("/get_medical_records/**").hasAnyAuthority("ROLE_DOCTOR", "ROLE_PATIENT", "ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.loginPage("/login")

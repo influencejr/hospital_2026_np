@@ -36,6 +36,10 @@
                     <li><a class="nav-link" href="/create_medical_record">Створити діагноз</a></li>
                 </#if>
 
+                <#if userRoles?? && userRoles?seq_contains("ROLE_ADMIN")>
+                    <li><a class="nav-link" href="/admin">Адмін панель</a></li>
+                </#if>
+
 
                 <#if userRoles?? && (userRoles?seq_contains("ROLE_PATIENT"))>
                     <#if currentPatientId??>

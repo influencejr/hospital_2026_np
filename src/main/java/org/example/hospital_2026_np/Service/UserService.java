@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +47,32 @@ public class UserService implements UserDetailsService {
         return usersRepository.save(user);
     }
 
+    public void deleteUser(Long id) {
+        usersRepository.deleteById(id);
+    }
 
+    public List<Users> findAllUsers() {
+        return usersRepository.findAll();
+    }
+
+    public List<Roles> findAllRoles() {
+        return rolesRepository.findAll();
+    }
+
+    public void updateUserRole(Long userId, Long roleId) {
+        Users user = usersRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        Roles role = rolesRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role not found"));
+        user.getRoles().clear();
+        user.getRoles().add(role);
+        usersRepository.save(user);
+    }
+
+    public void createAdminUser(String username, String password, Long roleId) {
+        Roles role = rolesRepository.findById(roleId).orElseThrow(() -> new RuntimeException("Role not found"));
+        Users user = new Users();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRoles(new HashSet<>(Collections.singletonList(role)));
+        usersRepository.save(user);
+    }
 }
