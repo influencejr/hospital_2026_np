@@ -38,6 +38,7 @@
 
                 <#if userRoles?? && userRoles?seq_contains("ROLE_ADMIN")>
                     <li><a class="nav-link" href="/admin">Адмін панель</a></li>
+                    <li><a class="nav-link" href="/admin/audit">Журнал аудиту</a></li>
                 </#if>
 
 

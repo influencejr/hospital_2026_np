@@ -25,6 +25,7 @@ public class AuthController {
 
     private final UserService userService;
     private final PatientsService patientsService;
+    private final org.example.hospital_2026_np.Service.UserAuditService userAuditService;
 
 
     @GetMapping("/login")
@@ -69,6 +70,8 @@ public class AuthController {
 
         patient.setUser(user2);
         patientsService.savePatient(patient);
+
+        userAuditService.logAction(user.getUsername(), "REGISTRATION", "New patient registered: " + patient.getFirstName() + " " + patient.getLastName());
 
         return "redirect:/login";
 

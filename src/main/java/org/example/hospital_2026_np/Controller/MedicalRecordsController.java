@@ -5,6 +5,7 @@ import org.example.hospital_2026_np.Entity.MedicalRecords;
 import org.example.hospital_2026_np.Service.MedicalRecordsService;
 import org.example.hospital_2026_np.Service.PatientsService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ public class MedicalRecordsController {
 
     private final MedicalRecordsService medicalRecordsService;
     private final PatientsService patientsService;
+    private final org.example.hospital_2026_np.Service.UserAuditService userAuditService;
 
 
     @GetMapping("/get_medical_records/{id}")
@@ -57,6 +59,12 @@ public class MedicalRecordsController {
         medicalRecord.setRecommendation(recommendation);
 
         medicalRecordsService.save(medicalRecord);
+
+        userAuditService.logAction(
+            SecurityContextHolder.getContext().getAuthentication().getName(),
+            "CREATE_MEDICAL_RECORD",
+            "Created medical record for patient ID: " + patientId + ", diagnosis: " + diagnosis
+        );
 
         return "redirect:/get_medical_records/" + patientId;
     }

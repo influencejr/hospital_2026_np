@@ -34,6 +34,7 @@ public class AppointmentsController {
     private final ExecutorService executorService;
     private final DoctorAvailabilityService doctorAvailabilityService;
     private final UserService userService;
+    private final org.example.hospital_2026_np.Service.UserAuditService userAuditService;
 
     static final String attributeName = "appointments";
 
@@ -206,6 +207,13 @@ public class AppointmentsController {
 
         appointmentsService.createNewAppointment(appointment);
 
+        userAuditService.logAction(
+            user.getUsername(),
+            "CREATE_APPOINTMENT",
+            "Created appointment for patient: " + patient.getFirstName() + " " + patient.getLastName() +
+            ", doctor ID: " + id + ", type: " + appointmentType
+        );
+
         return "redirect:/appointments/" + patient.getId();
 
 
@@ -254,6 +262,13 @@ public class AppointmentsController {
 
         appointmentsService.updateAppointment(appointment);
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        userAuditService.logAction(
+            auth.getName(),
+            "UPDATE_APPOINTMENT",
+            "Updated appointment ID: " + ID + ", status: " + (status != null ? status : "unchanged")
+        );
+
         return "redirect:/appointments";
     }
 
@@ -266,6 +281,13 @@ public class AppointmentsController {
     @PostMapping("/delete_appointment/delete")
     public String deleteAppointment(@RequestParam(name = "id") Long ID) {
         appointmentsService.deleteAppointmentById(ID);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        userAuditService.logAction(
+            auth.getName(),
+            "DELETE_APPOINTMENT",
+            "Deleted appointment ID: " + ID
+        );
 
         return  "redirect:/appointments";
     }

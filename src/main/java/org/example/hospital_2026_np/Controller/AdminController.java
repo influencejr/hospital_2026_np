@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final UserService userService;
+    private final org.example.hospital_2026_np.Service.UserAuditService userAuditService;
 
-    
     @GetMapping
     public String adminPage(Model model) {
         model.addAttribute("users", userService.findAllUsers());
@@ -26,12 +26,14 @@ public class AdminController {
                              @RequestParam String password,
                              @RequestParam Long roleId) {
         userService.createAdminUser(username, password, roleId);
+        userAuditService.logAction("admin", "CREATE_USER", "Created user: " + username + " with roleId: " + roleId);
         return "redirect:/admin";
     }
 
     @PostMapping("/delete_user")
     public String deleteUser(@RequestParam Long id) {
         userService.deleteUser(id);
+        userAuditService.logAction("admin", "DELETE_USER", "Deleted user with ID: " + id);
         return "redirect:/admin";
     }
 
@@ -39,6 +41,7 @@ public class AdminController {
     public String updateRole(@RequestParam Long userId,
                              @RequestParam Long roleId) {
         userService.updateUserRole(userId, roleId);
+        userAuditService.logAction("admin", "UPDATE_USER", "Updated role for userId: " + userId + " to roleId: " + roleId);
         return "redirect:/admin";
     }
 }

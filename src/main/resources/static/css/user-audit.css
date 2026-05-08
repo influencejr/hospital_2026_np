@@ -1,0 +1,235 @@
+.audit-section {
+    min-height: calc(100vh - 80px);
+    background-image:
+            linear-gradient(
+                    120deg,
+                    rgba(27, 94, 32, 0.75),
+                    rgba(46, 125, 50, 0.75)
+            ),
+            url("https://images.unsplash.com/photo-1586773860418-d37222d8fce3");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+.audit-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 1200px;
+}
+
+.audit-container h1 {
+    color: #1b5e20;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.filter-card {
+    background-color: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #e8f5e9;
+}
+
+.filter-card h3 {
+    color: #2e7d32;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    border-bottom: 2px solid #e8f5e9;
+    padding-bottom: 10px;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-form {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.audit-card {
+    background-color: white;
+}
+
+.audit-card h3 {
+    color: #2e7d32;
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    border-bottom: 2px solid #e8f5e9;
+    padding-bottom: 10px;
+}
+
+.audit-stats {
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.stat-label {
+    color: #1b5e20;
+    font-weight: 600;
+}
+
+.stat-value {
+    background-color: #2e7d32;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.audit-table {
+    margin-top: 10px;
+}
+
+.audit-table thead th {
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    font-weight: 600;
+    border-bottom: 2px solid #2e7d32;
+}
+
+.audit-row {
+    transition: background-color 0.2s ease;
+}
+
+.audit-row:hover {
+    background-color: #f1f8f4;
+}
+
+.audit-id {
+    font-family: monospace;
+    color: #6c757d;
+    font-weight: 600;
+}
+
+.username-badge {
+    background-color: #e3f2fd;
+    color: #1565c0;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.action-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.action-login {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+}
+
+.action-logout {
+    background-color: #ffccbc;
+    color: #d84315;
+}
+
+.action-create_user,
+.action-create_appointment {
+    background-color: #b3e5fc;
+    color: #01579b;
+}
+
+.action-update_user,
+.action-update_appointment {
+    background-color: #fff9c4;
+    color: #f57f17;
+}
+
+.action-delete_user,
+.action-delete_appointment {
+    background-color: #ffcdd2;
+    color: #c62828;
+}
+
+.audit-details {
+    color: #495057;
+    font-size: 0.9rem;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.audit-timestamp {
+    color: #6c757d;
+    font-family: monospace;
+    font-size: 0.9rem;
+}
+
+.btn-outline-primary {
+    border-color: #2e7d32;
+    color: #2e7d32;
+}
+
+.btn-outline-primary:hover {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+    color: white;
+}
+
+.btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.btn-primary:hover {
+    background-color: #1b5e20;
+    border-color: #1b5e20;
+}
+
+@media (max-width: 768px) {
+    .audit-container {
+        padding: 20px;
+    }
+
+    .filter-buttons {
+        flex-direction: column;
+    }
+
+    .audit-details {
+        max-width: 150px;
+    }
+}
