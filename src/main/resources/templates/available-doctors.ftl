@@ -47,7 +47,7 @@
 
                     <div class="cube-footer">
                         <form action="/create_appointment/doctor_id/${worker.id}" method="GET">
-                            <button type="submit" class="btn-submit btn-create-app">Записатись</button>
+                            <button type="submit" class="btn-submit btn-create-app">Створити призначення</button>
                         </form>
                     </div>
                 </div>
